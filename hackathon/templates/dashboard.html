@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Select Domain</title>
+<style>
+  body,
+  html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    width: 100%;
+  }
+
+  .left-container {
+    width: 40%;
+    padding: 20px;
+  }
+
+  .header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .domain-btn {
+    cursor: pointer;
+    font-size: 18px;
+    padding: 12px 24px;
+    margin-bottom: 2rem;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #007bff;
+    outline: none;
+    text-align: left;
+    width: 100%;
+  }
+
+  .domain-btn:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .right-container {
+    width: 60%;
+    padding: 20px;
+    padding-top: 110px;
+    display: none;
+    background-color: #fff;
+    overflow-y: auto;
+    border-left: 2px solid #000;
+    position: relative;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .table th {
+    background-color: #f2f2f2;
+    padding-top: 10px;
+  }
+
+  .status-input {
+    padding: 4px 8px;
+    margin: 4px 0;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+
+  .star {
+    cursor: pointer;
+    color: #f5da0a;
+    font-size: 24px;
+    margin-right: 5px;
+  }
+
+  .star:hover {
+    color: #ffdd00;
+  }
+
+  .overall-btn {
+    padding: 20px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+  }
+
+  .overall-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .generate-report-btn {
+    position: absolute;
+    bottom: 40px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .overall-attainment {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .overall-attainment label {
+    margin-right: 10px;
+    padding-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="left-container">
+  <div class="header">Select the domain to validate</div>
+  <div class="options">
+    <button class="domain-btn" onclick="displayDetails('frontend')">
+      Frontend
+    </button>
+    <button class="domain-btn" onclick="displayDetails('backend')">
+      Backend
+    </button>
+    <button class="domain-btn" onclick="displayDetails('devops')">
+      DevOps
+    </button>
+    <button class="domain-btn" onclick="displayDetails('data_science')">
+      Data Science
+    </button>
+  </div>
+</div>
+<div class="right-container" id="details-container">
+  <!-- Content will be populated here on button click -->
+</div>
+<script>
+  var overallScores = {
+    backend: 0,
+    frontend: 0,
+    devops: 0,
+    data_science: 0
+  };
+  var currentDomain; // Define currentDomain variable globally
+
+  function createRatingStars(containerId) {
+    const starContainer = document.getElementById(containerId);
+    if (!starContainer) {
+      console.error("Star container not found:", containerId);
+      return;
+    }
+
+    starContainer.innerHTML = "";
+    for (let i = 0; i < 5; i++) {
+      const star = document.createElement("span");
+      star.className = "star";
+      star.innerHTML = "&#9734;";
+      star.dataset.rating = i + 1;
+      star.onclick = function () {
+        setRating(containerId, parseInt(this.dataset.rating));
+      };
+      starContainer.appendChild(star);
+    }
+  }
+
+  function setRating(containerId, rating) {
+    const stars = document.getElementById(containerId).children;
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].innerHTML = i < rating ? "&#9733;" : "&#9734;";
+    }
+  }
+
+  function displayDetails(domain) {
+    const details = {
+      frontend: [
+        { topic: "HTML", status: "", attainment: 0 },
+        { topic: "CSS", status: "", attainment: 0 },
+        { topic: "javascript", status: "", attainment: 0 },
+        { topic: "react", status: "", attainment: 0 },
+        { topic: "angular", status: "", attainment: 0 },
+      ],
+      data_science: [
+        { topic: "python", status: "", attainment: 0 },
+        { topic: "machine learning", status: "", attainment: 0 },
+        { topic: "data analysis", status: "", attainment: 0 },
+        { topic: "statistics", status: "", attainment: 0 },
+        { topic: "React", status: "", attainment: 0 },
+      ],
+      backend: [
+        { topic: "java", status: "", attainment: 0 },
+        { topic: "mongodb", status: "", attainment: 0 },
+        { topic: "sql", status: "", attainment: 0 },
+        { topic: "fast-api", status: "", attainment: 0 },
+        { topic: "python", status: "", attainment: 0 },
+      ],
+      devops: [
+        { topic: "docker", status: "", attainment: 0 },
+        { topic: "kubernetes", status: "", attainment: 0 },
+        { topic: "terraform", status: "", attainment: 0 },
+        { topic: "aws", status: "", attainment: 0 },
+        { topic: "ansible", status: "", attainment: 0 },
+      ],
+    };
+
+    const domainDetails = details[domain];
+    const detailsContainer = document.getElementById("details-container");
+    detailsContainer.innerHTML = "";
+    detailsContainer.style.display = "block";
+
+    const table = document.createElement("table");
+    table.className = "table";
+
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+        <tr>
+            <th>Topics</th>
+            <th>Status (Yes/No)</th>
+            <th>Attainment</th>
+        </tr>`;
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    domainDetails.forEach((item, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+            <td>${item.topic}</td>
+            <td>
+                <select class="status-input" onchange="toggleStars(this, ${index})">
+                    <option value="no" selected>No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </td>
+            <td id="stars-${index}"></td>
+        `;
+      tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+
+    // Add submit button
+    const submitRow = document.createElement("tr");
+    submitRow.innerHTML = `
+        <td colspan="3">
+            <button class="overall-btn" onclick="calculateOverallAttainment()">Submit</button>
+        </td>
+    `;
+    tbody.appendChild(submitRow);
+
+    detailsContainer.appendChild(table);
+
+    // Generate Report Button
+    const generateReportBtn = document.createElement("button");
+    generateReportBtn.innerText = "Generate Report";
+    generateReportBtn.className = "generate-report-btn";
+    generateReportBtn.addEventListener("click", generateReport); // Attach event handler
+    detailsContainer.appendChild(generateReportBtn);
+
+    // Add Overall Attainment label and stars
+    const overallAttainmentLabel = document.createElement("div");
+    overallAttainmentLabel.className = "overall-attainment";
+    overallAttainmentLabel.id = "overall-attainment";
+    detailsContainer.appendChild(overallAttainmentLabel);
+
+    // Now, call createRatingStars for each row
+    domainDetails.forEach((item, index) => {
+      createRatingStars(`stars-${index}`);
+    });
+
+    currentDomain = domain; // Store the current domain
+  }
+
+  function toggleStars(selectElement, index) {
+    const starsContainer = document.getElementById(`stars-${index}`);
+    const stars = starsContainer.children;
+    if (selectElement.value === "yes") {
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].style.pointerEvents = "auto";
+      }
+    } else {
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].style.pointerEvents = "none";
+        stars[i].innerHTML = "&#9734;";
+      }
+    }
+  }
+
+  function calculateOverallAttainment() {
+    const allStarsContainers = document.querySelectorAll('[id^="stars-"]');
+    let totalFilledStars = 0;
+    let totalPossibleStars = 0;
+
+    allStarsContainers.forEach((starsContainer) => {
+      const stars = starsContainer.children;
+      for (let i = 0; i < stars.length; i++) {
+        if (stars[i].innerHTML === "★") {
+          totalFilledStars++;
+        }
+        totalPossibleStars++;
+      }
+    });
+    const overallAttainmentScore = totalFilledStars / totalPossibleStars;
+    const filledStars = Math.round(overallAttainmentScore * 3);
+
+    overallScores[currentDomain] = filledStars;
+
+    let starsHTML = "";
+    for (let i = 0; i < filledStars; i++) {
+      starsHTML += '<span class="star">★</span>';
+    }
+
+    const overallAttainmentLabel =
+      document.getElementById("overall-attainment");
+
+    overallAttainmentLabel.innerHTML = `
+        <label>Overall Attainment</label>
+        ${starsHTML}
+    `;
+  }
+
+  function generateReport() {
+    // Collecting star values and overall attainment scores from each section
+    const reportData = {
+      stars: {},
+      overallScores: overallScores
+    };
+
+    const allStarsContainers = document.querySelectorAll('[id^="stars-"]');
+    allStarsContainers.forEach((starsContainer, index) => {
+      const stars = starsContainer.children;
+      const sectionName = starsContainer.id.split('-')[1];
+      reportData.stars[sectionName] = [];
+      for (let i = 0; i < stars.length; i++) {
+        reportData.stars[sectionName].push(stars[i].innerHTML === "★" ? 1 : 0);
+      }
+    });
+
+    // Encode the report data as JSON and include it in the URL parameters
+    const queryString = 'reportData=' + encodeURIComponent(JSON.stringify(reportData));
+    window.location.href = '/nextpage?' + queryString;
+  }
+
+  // Accessing overall attainment scores dictionary passed from Flask
+  var overallAttainmentScores = {{ overall_attainment_scores|tojson|safe }};
+
+  // Now you can use overallAttainmentScores as needed
+  console.log(overallAttainmentScores);
+
+  // Example: Displaying overall attainment scores for each section
+  console.log("Frontend Overall Attainment:", overallAttainmentScores.frontend);
+  console.log("Backend Overall Attainment:", overallAttainmentScores.backend);
+  console.log("DevOps Overall Attainment:", overallAttainmentScores.devops);
+  console.log("Data Science Overall Attainment:", overallAttainmentScores.data_science);
+</script>
+</body>
+</html>

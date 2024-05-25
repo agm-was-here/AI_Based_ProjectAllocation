@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intern Evaluation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+      }
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+      .button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Intern ID</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="internTable">
+        <!-- Interns will be dynamically added here -->
+      </tbody>
+    </table>
+
+    <script>
+      // Sample data of interns
+      const interns = [
+        { id: "INT001", name: "John Doe" },
+        { id: "INT002", name: "Jane Smith" },
+        { id: "INT003", name: "Michael Brown" },
+        {id:"INT004",name: "james"}
+        // Add more interns as needed
+      ];
+
+      // Function to dynamically generate table rows for interns
+      function generateInternRows() {
+        const tableBody = document.getElementById("internTable");
+        tableBody.innerHTML = ""; // Clear existing rows
+
+        interns.forEach((intern) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${intern.id}</td>
+                    <td>${intern.name}</td>
+                    <td>
+                        <button class="button" onclick="goToEvaluation('${intern.id}')">Evaluate</button>
+                    </td>
+                `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Function to redirect to evaluation page with intern ID
+      function goToEvaluation(internId) {
+        window.location.href = `/dashboard?internId=${internId}`;
+      }
+
+      // Generate table rows on page load
+      window.onload = generateInternRows;
+    </script>
+  </body>
+</html>

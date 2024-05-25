@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="file"] {
+            margin-bottom: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="file"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            width: calc(100% - 18px);
+        }
+    </style>
+</head>
+<body>
+    <h2>Document Upload</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="aadhar">Upload Aadhar (PDF):</label>
+        <input type="file" id="aadhar" name="aadhar" accept=".pdf" required><br><br>
+        
+        <label for="pan">Upload PAN (PDF):</label>
+        <input type="file" id="pan" name="pan" accept=".pdf" required><br><br>
+        
+        <label for="10th_certificate">Upload 10th Certificate (PDF):</label>
+        <input type="file" id="10th_certificate" name="10th_certificate" accept=".pdf" required><br><br>
+        
+        <label for="12th_certificate">Upload 12th Certificate (PDF):</label>
+        <input type="file" id="12th_certificate" name="12th_certificate" accept=".pdf" required><br><br>
+        
+        <label for="resume">Upload Resume (PDF):</label>
+        <input type="file" id="resume" name="resume" accept=".pdf" required><br><br>
+        
+        <label for="photo">Upload Passport Size Photo (JPEG):</label>
+        <input type="file" id="photo" name="photo" accept=".jpeg, .jpg" required><br><br>
+        
+        <input type="submit" name="validate" value="Validate">
+    </form>        
+</body>
+</html>
